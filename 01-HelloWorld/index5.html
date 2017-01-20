@@ -1,0 +1,90 @@
+<html>
+    <head>
+
+        <!-- The goal of this tutorial is to understand the Polymer element lifecycle
+
+             https://www.polymer-project.org/1.0/docs/devguide/registering-elements
+
+             In addition, we are now using HTML5 features
+           -->
+        
+        <!-- Since not all browsers support web components, we have to use the webcomponentsjs polyfill. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.23/webcomponents-lite.min.js"></script>
+        <!-- The polymer based class -->
+        <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.7.0.2/lib/polymer/polymer.html">
+        <script>
+
+         class HelloWorld {
+
+             constructor() {
+                 console.log("Element is created");
+             }
+             
+             // include a custom method for this element
+             mutate() {
+                 // This method simply adds something to this element's innerHTML
+                 this.innerHTML += " Stage!";
+             }
+
+             // basic lifecycle methods
+             beforeRegister() {
+                 console.log("Right before the element is registered");
+                 // This is where we MUST include the "is" property
+                 this.is = "hello-world";                 
+                 console.log(this.is);
+             }
+             
+             created() {
+                 console.log("Element is created, but not part of the DOM yet");
+             }
+             
+             ready() {
+                 console.log("Element is ready to be used");
+                 this.innerHTML = "Hello World";
+             }
+             
+             attached() {
+                 console.log("Element is attached to the DOM");
+             }
+             
+             detached() {
+                 console.log("Element is detached from the DOM");
+             }
+             
+             attributeChanged() {
+                 console.log("Some attribute is changed");
+             }            
+             
+         }
+
+         
+         // Since we are creating and using the element on the main page, we will need
+         // to explicitly wait until all the imports are loaded, hence the use
+         // of the HTMLImports.whenReady function -- very similar to jQuery's document.ready
+         HTMLImports.whenReady(() => {
+             
+             // Using the Polymer based class to create a tag
+             Polymer(HelloWorld);
+         });         
+        </script>
+    </head>
+
+    <body>
+        <hello-world>
+            
+        </hello-world>
+
+        <button>Foo</button>
+       
+    </body>
+    <script>
+     
+     document.querySelector("button")
+             .addEventListener(
+                 'click',
+                 () => {
+                     document.querySelector("hello-world").mutate();
+                 });
+     
+    </script>
+</html>

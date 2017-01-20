@@ -1,0 +1,74 @@
+<html>
+    <head>
+
+        <!-- The goal of this tutorial is to understand the Polymer element lifecycle
+
+             https://www.polymer-project.org/1.0/docs/devguide/registering-elements
+
+           -->
+        
+        <!-- Since not all browsers support web components, we have to use the webcomponentsjs polyfill. -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.23/webcomponents-lite.min.js"></script>
+        <!-- The polymer based class -->
+        <link rel="import" href="https://cdn.rawgit.com/download/polymer-cdn/1.7.0.2/lib/polymer/polymer.html">
+        <script>
+
+         // Since we are creating and using the element on the main page, we will need
+         // to explicitly wait until all the imports are loaded, hence the use
+         // of the HTMLImports.whenReady function -- very similar to jQuery's document.ready
+         HTMLImports.whenReady(function() {
+             
+             // Using the Polymer based class to create a tag
+             Polymer({
+                 // Custom element must have a dash (-) in the name
+                 is: "hello-world",
+
+                 // include a custom method for this element
+                 mutate: function() {
+                     // This method simply adds something to this element's innerHTML
+                     this.innerHTML += " Stage!";
+                 },
+                 
+                 // The follow functions are basic callbacks that is called
+                 // at each stage of the element's lifecycle                 
+                 created: function() {
+                     console.log("Element is created, but not part of the DOM yet");
+                 },
+                 
+                 ready: function() {
+                     console.log("Element is ready to be used");
+                     this.innerHTML = "Hello World";
+                 },
+                 
+                 attached: function() {
+                     console.log("Element is attached to the DOM");
+                 },
+                 
+                 detached: function() {
+                     console.log("Element is detached from the DOM");
+                 },
+                 
+                 attributeChanged: function() {
+                     console.log("Some attribute is changed");
+                 }            
+             });
+         });         
+        </script>
+    </head>
+
+    <body>
+        <hello-world>
+            
+        </hello-world>
+
+        <button>Foo</button>
+       
+    </body>
+    <script>
+     
+         document.querySelector("button").addEventListener('click', function(e) {
+             document.querySelector("hello-world").mutate();
+         });
+
+    </script>
+</html>
